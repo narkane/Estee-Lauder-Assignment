@@ -10,7 +10,7 @@ class Menu extends React.Component {
     /////////////
     //VARIABLES//
     /////////////
-    instance = axios.create({baseURL: 'http://localhost:3035'});
+    instance = axios.create({baseURL: 'https://estee-lauder-assignment.herokuapp.com:3035'});
 
     /**
      * Main constructor for the Menu Class

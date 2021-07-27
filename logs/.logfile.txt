@@ -575,3 +575,6 @@
 [27/7/2021 -- 3:3]  Setup for Prod
 [27/7/2021 -- 3:5]  Info task started
 [27/7/2021 -- 3:5]  Setup for Prod
+[27/7/2021 -- 4:22]  Info task started
+[27/7/2021 -- 4:24]  Scripts ran on main.js
+[27/7/2021 -- 4:24]  Scripts ran on main.js
