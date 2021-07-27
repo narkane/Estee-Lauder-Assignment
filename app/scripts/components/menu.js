@@ -111,6 +111,11 @@ class Menu extends React.Component {
         }
     }
 
+    arrayOfStringSpace = (input) => {
+        let arr = input.split(' ');
+        return arr;
+    }
+
     /**
      * Renders the default app in the window, we have assigned this to an element called root.
      * 

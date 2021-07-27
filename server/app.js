@@ -31,33 +31,50 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3030"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Origin", "http://estee-lauder-assignment.surge.sh");
+    // res.header("Access-Control-Allow-Origin", "http://estee-lauder-assignment.surge.sh");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
 
 app.post('/search/passive', function(req, res, next) {
-    const search = req.body.search;
+    var points = [20];
+    var search = req.body.search;//.filter(e => e);
     const token = req.body.token;
     const geo = req.body.geo;
-    const passiveResults = data.filter((item)=>{
-        let itemLC = item.name.toLowerCase();
-        return itemLC.includes(search);
-    });
+    search = search.split(' ');
+    search = search.filter(e => e);
     var passiveResultsTag = [];
+    var passiveResults = [];
+    console.log("SEARCH: "+search);
     
+    data.forEach((item)=>{
+      let itemLC = item.name.toLowerCase();
+      search.filter(word => {
+          if(itemLC.includes(word)){
+            passiveResultsTag.push(item)
+            points[parseInt(item._id)-1]++;
+          }
+      });
+    });
+    // search.forEach(word => {
     data.forEach((item) => {
-        item.tags.forEach((tag) => {
-            if(tag.includes(search)){
-              passiveResultsTag.push(item);
-            }
-        })
+      let aTerms = item.tags;
+      console.log(aTerms);
+      
+        search.forEach((word) => {
+          if(aTerms.includes(word)){
+            passiveResults.push(item);
+            points[parseInt(item._id)-1]++;
+          }
+        }
+      )
     })
+    // });
     console.log(search);
 
-    console.log('passiveResults[tags]: '+JSON.stringify(passiveResultsTag));
+    // console.log('passiveResults[tags]: '+JSON.stringify(passiveResults));
     
-    const ret = [...passiveResults, ...passiveResultsTag];
+    const ret = [...passiveResultsTag, ...passiveResults];
 
     uniqueRet = [...new Set(ret)];
 
