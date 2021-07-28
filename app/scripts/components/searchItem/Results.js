@@ -16,8 +16,8 @@ const CardContainerStyle = {
 
 const ImageStyle = {
   // border: '3px solid green',
-  width: '50%',
-  height: '50%',
+  // width: '50%',
+  // height: '50%',
   borderRadius: 15
 }
 // ImageStyle:hover {

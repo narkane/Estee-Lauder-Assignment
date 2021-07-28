@@ -163,9 +163,10 @@ class Menu extends React.Component {
                     <a href="#" onClick={(e) => this.showSearchContainer(e)}>
                         <i className="material-icons close">close</i>
                     </a>
-                    <div style={{display: 'flex', flexDirection: 'row', backgroundColor: 'rgba(0,0,0,0)'}} className={(this.state.showingPassiveResults ? "showing " : "") + "pResults"}>
-                        {this.state.sType}{this.state.pRElements}
+                    <div style={{display: 'flex', flexDirection: 'row', backgroundColor: 'white'}} className={(this.state.showingPassiveResults ? "showing " : "") + "pResults"}>
+                        {this.state.pRElements}
                     </div>
+                    {this.state.sType}
                 </div>
             </header>
         );
