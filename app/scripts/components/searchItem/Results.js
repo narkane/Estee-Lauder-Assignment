@@ -1,6 +1,11 @@
 import React, { Component } from "react";
+import { Transform } from "stream";
 import {FlexConfig} from './FlexConfig.js'
-// import "./styles.css";
+
+// var sass = require('sass'); // or require('node-sass');
+
+// var result = sass.renderSync({file: "./styles.scss"});
+// console.log(result);
 
 const CardContainerStyle = {
   width: 300,
@@ -10,10 +15,14 @@ const CardContainerStyle = {
 }
 
 const ImageStyle = {
-  // width: 50%,
-  // height: 50%,
+  // border: '3px solid green',
+  width: '50%',
+  height: '50%',
   borderRadius: 15
 }
+// ImageStyle:hover {
+//   transform: scale(1.1);
+// }
 
 const RightColumn = {
   flex: 1,
@@ -53,6 +62,7 @@ export default class Results extends Component {
     return (
       <FlexConfig container width="300px" margin="32px auto">
         <img 
+            className="productImg"
             style={ImageStyle} 
             src={this.props.imgu}
             alt="Profile"

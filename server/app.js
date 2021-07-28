@@ -35,52 +35,87 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
-
-app.post('/search/passive', function(req, res, next) {
-    var points = [20];
+  
+app.post('/search/name', function(req, res, next) {
     var search = req.body.search;//.filter(e => e);
     const token = req.body.token;
     const geo = req.body.geo;
     search = search.split(' ');
     search = search.filter(e => e);
-    var passiveResultsTag = [];
+
+    console.log("SEARCH[name]: "+search);
     var passiveResults = [];
-    console.log("SEARCH: "+search);
-    
+
     data.forEach((item)=>{
-      let itemLC = item.name.toLowerCase();
-      search.filter(word => {
-          if(itemLC.includes(word)){
-            passiveResultsTag.push(item)
-            points[parseInt(item._id)-1]++;
-          }
-      });
+        let itemLC = item.name.toLowerCase();
+        // console.log(itemLC);
+        let hasAllElems = true;
+
+        for (let i = 0; i < search.length; i++){
+            if (itemLC.indexOf(search[i]) === -1) {
+                hasAllElems = false;
+                break;
+            }
+        }
+
+        if(hasAllElems){
+          passiveResults.push(item);
+          // points[parseInt(item._id)-1]++;
+        }
     });
+    uniqueRet = [...new Set(passiveResults)];
+    console.log('DATA: '+JSON.stringify(uniqueRet));
+
+    res.send({
+      'search': search,
+      'token': token,
+      'geo': geo,
+      'data': uniqueRet
+    });
+})
+
+app.post('/search/tags', function(req, res, next) {
+    // var points = [20];
+    var search = req.body.search;//.filter(e => e);
+    const token = req.body.token;
+    const geo = req.body.geo;
+    search = search.split(' ');
+    search = search.filter(e => e);
+
+    console.log("SEARCH[tags]: "+search);
+    var passiveResults = [];
+    
     // search.forEach(word => {
     data.forEach((item) => {
-      let aTerms = item.tags;
-      console.log(aTerms);
-      
-        search.forEach((word) => {
-          if(aTerms.includes(word)){
-            passiveResults.push(item);
-            points[parseInt(item._id)-1]++;
-          }
+        let aTerms = item.tags;
+        // console.log(aTerms);
+        let hasAllElems = true;
+
+        for (let i = 0; i < search.length; i++){
+            if (aTerms.indexOf(search[i]) === -1) {
+                hasAllElems = false;
+                break;
+            }
         }
-      )
+
+        if(hasAllElems){
+          passiveResults.push(item);
+          // points[parseInt(item._id)-1]++;
+        }
     })
+    uniqueRet = [...new Set(passiveResults)];
     // });
-    console.log(search);
+    // console.log(search);
 
     // console.log('passiveResults[tags]: '+JSON.stringify(passiveResults));
     
-    const ret = [...passiveResultsTag, ...passiveResults];
+    // const ret = [...passiveResultsTag, ...passiveResults];
 
-    uniqueRet = [...new Set(ret)];
 
-    console.log("TOTAL OUTPUT TEST:")
-    console.log(passiveResults.length+" + "+passiveResultsTag.length+" = "+ret.length);
-    console.log(uniqueRet.length);
+    // console.log("TOTAL OUTPUT TEST:")
+    // console.log(passiveResults.length+" + "+passiveResultsTag.length+" = "+ret.length);
+    // console.log(uniqueRet.length);
+    console.log('DATA: '+JSON.stringify(uniqueRet));
 
     res.send({
       'search': search,

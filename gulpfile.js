@@ -110,7 +110,7 @@ gulp.task('sass', function() {
 	// Return the task
 	return gulp.src('./app/sass/**/*.scss')
 		.pipe(sourcemaps.init())
-		.pipe(sass({ outputStyle: 'compact', includePaths: ['./app/sass'] }) )
+		.pipe(sass({ outputStyle: 'compressed', includePaths: ['./app/sass'] }) )
 		.on('error', errorLog )
 		.pipe( prefix({
 			browsers: ['last 2 versions']

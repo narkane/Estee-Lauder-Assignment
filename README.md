@@ -1,31 +1,85 @@
-# ELC Javscript Coding Test
+# Assessment Notes
 
-The ELC Javascript Coding Test is a way for you to showcase your own approach to coding. It allows you to create something with your own style and preferences. You can change the code to match your own preferences however you like. Feel free to change the setup, code or approach however you like. PLEASE READ ALL INSTRUCTIONS BELOW BEFORE STARTING.
+## Notes, Ideas, Rules, and Requirements
+IN ORDER TO BUILD FOR PRODUCTION! BROKEN! [FIXED LOCALLY]
+IN GULPFILE.JS LINE245 change production task argument from image to images!
+make sure to change LINE31 to: const uglify = require('gulp-uglify');
+and then npm i gulp-uglify
 
-**If you are not applying for a React role...**
-No React code is required for this test and your focus should be on general best practices in Javascript & CSS. Our evaluators will be ignoring React-specifics & focusing on your skills in modern web standards (HTML/CSS/JS).
+gulpfile.js LINE113 change style from 'compact' to 'compressed' to fix breaking sass compile!
 
-**If you are applying for a React role...**
-Please complete the task using React. Our evaluators will be looking for React best practices and specialized React knowledge in addition to Javascript & CSS.
+- The task is designed to be simple and shouldn’t take longer than __1-2 hours__.
+- Research is fine but collaboration with other engineers is not allowed (since the test is intended to give an honest view into what you can accomplish on your own).
+- Please send it back to us via a filesharing site like __WeTransfer__ or __YouSendIt__.
+- Please __*remove*__ the [*node_modules*](./ "DONT upload THIS file!!!") folder when uploading dummy!
+- Please *do not put your name in the code* or filename, because we evaluate the results anonymously.
+- This test uses __React__ and __NodeJS__. 
+    *The NodeJS required is very basic.*
+    Because of the role you are applying for, __your *React code SPECIFICALLY* will be evaluated.__
+
+- Please complete the task using __React__. Our evaluators will be looking for __React best practices and specialized React knowledge__ in addition to __Javascript & CSS__.
+
+
 
 ## The Task
 
-You are required to create a simple auto-search feature similar to [this one](https://www.maccosmetics.com/) where-by, as you type, the data is checked against a Node server and the response is then loaded in. You can style this however you wish and can implement it however you wish but you MUST use Javascript/React and Node to accomplish this. This has already been setup for you in the source code provided. Some general tips on starting:
+You are required to create a *realtime search input responsive* element similar to [this one](https://www.maccosmetics.com/).
+
+### Directions:
+
+- FYI: Three letters is MacCosmetic's chosen *Search String* character length value that begins site requesting backend for search input responses
+- [__MacCosmetic's Mobile Site__](https://m.maccosmetics.com "THIS mobile version of the sight") redirect is triggered (by a detected mobile device or device emulation) - and this ends up entirely replacing the __Search Bar__ in question with a search page [Magnifying Glass]("") now on this new "search" page you *can* get responsive searches from the white space below the nav, but they instead seem to fill the page with otherwise the same responsive results minus the Product images.
+- Now the collected __String__ in the search bar (assuming a *char length* now >= 3) is checked against the Node backend server via an API call.
+(__IMPORTANT!__ this same call to back, and subsequent render to front __IS ALSO DONE EVERYTIME__ when the *Search's Input String* onChange, and the character length is still > 2).
+This call will find and return 2 things to the front-end:
+        [[[MAKE PRETTY HOUSE!!]]]
+    1. An Object containing the 4 most similarly titled items found in the *Database's "Product TABLE"?* (I might just use an ORM for DB operations, I havent yet decided) (generally I prefer one, but I have yet to read any of the project code to be honest)
+    2. An integer for total number of *Products* within "matching constraints" including the first four. This is then rendered in *dropdown responsive search nav bar element* as:
+            Displaying 4 of 52 Results [See All Results](https://www.maccosmetics.com/esearch?search=lip "Example Search using the word 'lip")
+    3. With either of these two events the response is then loaded into the proper part of the page. You can style this however you wish and can implement it however you wish but you MUST use Javascript/React and Node to accomplish this. This has already been setup for you in the source code provided.
+
+### Some general tips on starting:
 
 * The point of entry for the app can be found in the 'app/scripts/main.js' file -- work from this file for your app code
 * The server with the response can be found in the 'server/app.js' file -- work from this file to complete the Node server setup
-* The data can be found in the 'server/data.js' file, which is then loaded into the Node 'server/app.js' file
+* The data can be found in the 'server/data.js' file, which is then loaded into the Node 'server/app.js' file 
 * The SCSS files, which contain the SASS styling, can be found in the 'app/sass' folder
 * You can alter the setup of the runtime by editing the 'gulpfile.js' file
 
-## Getting Started
+
+# Getting Started
+
+## STOP EVERYTHING!!!
+    
+    sudo apt install gulp
+
+If you dont already HAVE __gulp__ installed your Node/npm will be mysterious af, and the errors that
+*"npm run _____"* will make no sense and only lead you astray.
+
+A good reminder to myself, after wasting so much time! Not to be TOO confident with new toys, to not rush new features, but __instead__ to enjoy the *opportunity* to learn a new tech, and to do that, one almost always (these days) should start at the documentation, then consume all of it, then look into use cases. Doing it in reverse order is __ALWAYS SLOWER__!
+
+## [So just start with the goshdamn __🥤Gulp🥤__ page *right now*, okay!?!](https://gulpjs.com/docs/en/getting-started/quick-start ">'💦Gulp💦gulp💦gulp!'💦<")
+
+P.S. after much research I realized I needed to remove the 'carats' (^) prefixing all of gulps version numbers in package.json because the new releases of gulp were so alien that it would likely require an entire rewrite or the gulpfile.js. So I npm remove'd all gulps and reinstalled npm with new fixed gulp versions as well as adding a fixed node version around 10 because 14 was throwing its own type of errors as well.
+In final I had to add:
+- babel
+- sass
+- babel/plugin-proposal-class-properties
+...node packages and add a tweak to the gulp-sass import in gulpfile.js.
+its possible there were a few more but i rm -rf'd node_modules and removed most of the new globals that had been sudo'd in - so in closing I think its safe to say If thats not a total universal setup build fix its 99%. Theres still some warnings and bugs when i run "npm run servers" but they are incredibly minor and ive already wasted too much time continuing to fiddle with the node packages after the site was already working sufficiently to perform the assignment.
+
+If youre experiencing problems with cross-env while issuing the "npm install" command, first try running the package.json npm script:
+        
+        *npm run globals*
 
 ### Prerequisites
 
 * NPM (v6.9.0)
 
 * NodeJS (v10.15.3)
-  * If you are on a different NodeJS version, please use NVM (Node Version Manager) in order to downgrade to 10.15.3. You can find NVM's documentation here <https://github.com/nvm-sh/nvm>
+    * If you are on a different NodeJS version, add the following entry to the package.json's dependancies object: "node": "10.15.3"
+    * This will allow you to keep your current latest version of node on your PC without uninstalling and downgrading it to a lower version release, merely to complete this one project.
+    * It will run your "*npm install*" command in the context of the needed Node.js version!
 
 ### Step 1 - Node Modules
 
@@ -39,9 +93,9 @@ After installing the Node modules, you must start two locally hosted servers. Th
 
     npm run servers
 
-This command will create a front end server at <http://localhost:3030> (which should automatically open in your browser), and it will start the Node back end server at <http://localhost:3035>, with Nodemon, so that updates happen automatically on save.
+This command will create a front end server at http://localhost:3030 (which should automatically open in your browser), and it will start the Node back end server at http://localhost:3035, with Nodemon, so that updates happen automatically on save. 
 
-### *Special Note for Windows Users*
+*Special Note for Windows Users*
 
 On Windows systems, you may get an error like the following:
 
@@ -83,6 +137,7 @@ Third party can be used to contain any third party libraries that you may want t
 ### views
 
 The views folder contains the HTML templates folder. The templates are created with the [Mustache](https://mustache.github.io/) templating language.
+
 
 ## Node Back End Server Folder
 

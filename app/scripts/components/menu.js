@@ -25,7 +25,8 @@ class Menu extends React.Component {
             searchingContent: "",
             passiveResults: [],
             pRElements: [],
-            loading: false
+            loading: false,
+            sType: 'name'
         };
     }
 
@@ -38,12 +39,12 @@ class Menu extends React.Component {
         this.renderPassive();
     }
 
-    passiveSearch = async val => {
+    passiveSearch = async (val, type) => {
         let params = {
             search: val
         }
         this.setState({ loading: true });
-        await this.instance.post(`/search/passive`, params).then(res => {
+        await this.instance.post(`/search/`+type, params).then(res => {
             let pResults = res.data.data;
             console.log('res: '+JSON.stringify(res.data.data));
       
@@ -67,10 +68,12 @@ class Menu extends React.Component {
                 console.log(this.state.passiveResults[i].picture);
                 this.setState({
                     pRElements: [...this.state.pRElements, <Results
+                        className='productTile'
                         imgu={this.state.passiveResults[i].picture}
                         name={this.state.passiveResults[i].name}
                         price={'$'+this.state.passiveResults[i].price}
-                        tags={this.state.passiveResults[i].tags.join(", ")} />]
+                        tags={this.state.passiveResults[i].tags.join(", ")}
+                        />]
                   })
             }
         }      
@@ -107,13 +110,16 @@ class Menu extends React.Component {
         console.log(this.state.showingPassiveResults);
         
         if(e.target.value.length >= 3) {
-            this.passiveSearch(e.target.value);
+            this.passiveSearch(e.target.value, this.state.sType);
         }
     }
 
-    arrayOfStringSpace = (input) => {
-        let arr = input.split(' ');
-        return arr;
+    searchType = (type) => {
+        this.setState({sType: type});
+        if(this.state.searchingContent.length >= 3){
+            this.setState({pRElements: []});
+            this.passiveSearch(this.state.searchingContent, type);
+        }
     }
 
     /**
@@ -137,6 +143,11 @@ class Menu extends React.Component {
                             <a href="#" className="nav-item">STORES</a>
                             <a href="#" className="nav-item">INSPIRATION</a>
 
+                            {/* <div className="nav-item" > */}
+                            <a href="#" className="nav-item" onClick={() => this.searchType('name')}><small>By Name</small></a>
+                            <a href="#" className="nav-item" onClick={() => this.searchType('tags')}><small>By Tags</small></a>
+                            {/* </div> */}
+
                             <a href="#" onClick={(e) => this.showSearchContainer(e)}>
                                 <i className="material-icons search">search</i>
                             </a>
@@ -152,9 +163,9 @@ class Menu extends React.Component {
                     <a href="#" onClick={(e) => this.showSearchContainer(e)}>
                         <i className="material-icons close">close</i>
                     </a>
-                        <div style={{display: 'flex', flexDirection: 'row'}} id="pResults" className={(this.state.showingPassiveResults ? "showing " : "") + "search-container"}>
-                            {this.state.pRElements}
-                        </div>
+                    <div style={{display: 'flex', flexDirection: 'row', backgroundColor: 'rgba(0,0,0,0)'}} className={(this.state.showingPassiveResults ? "showing " : "") + "pResults"}>
+                        {this.state.sType}{this.state.pRElements}
+                    </div>
                 </div>
             </header>
         );
